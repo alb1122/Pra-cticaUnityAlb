@@ -82,12 +82,12 @@ public class ControlNave : MonoBehaviour
 		}
 		if (Input.GetKeyDown (KeyCode.LeftControl)) {
 			// Cada cierto tiempo, fabricamos un asteroide
-			if (Time.time > intervalo) {
+			if (Time.time > intervalo+tiempoInicial) {
 
 				intervalo += 5;
 				DispararBomba ();
 			}
-			intervalo=0;
+			tiempoInicial=0;
 		}
 	}
 
