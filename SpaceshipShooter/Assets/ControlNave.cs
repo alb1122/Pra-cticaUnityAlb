@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ControlNave : MonoBehaviour
 {
@@ -16,8 +17,12 @@ public class ControlNave : MonoBehaviour
 	public Rigidbody2D bomba;
 
 	private float intervalo;
-	private float tiempoInicial=Time.time;
-	
+
+	public GameObject marcadorBomba1;
+	public GameObject marcadorBomba2;
+	public GameObject marcadorBomba3;
+
+	private int bombas = 3;
 	// Hacemos copias del prefab del disparo y las lanzamos
 	void Disparar ()
 	{
@@ -36,6 +41,8 @@ public class ControlNave : MonoBehaviour
 	void DispararBomba ()
 	{
 		// Clonar el objeto
+
+
 		Rigidbody2D d = (Rigidbody2D)Instantiate (bomba, transform.position, transform.rotation);
 		
 		// Desactivar la gravedad para este objeto, si no, ¡se cae!
@@ -46,6 +53,33 @@ public class ControlNave : MonoBehaviour
 		
 		// Lanzarlo
 		d.AddForce (Vector2.up * velocidadDisparo);	
+		switch (bombas) {
+		case 1:
+			Image i3 = marcadorBomba1.GetComponent<Image> ();
+			i3.canvasRenderer.Clear ();
+			break;
+		case 2:
+			Image i2 = marcadorBomba2.GetComponent<Image> ();
+			i2.canvasRenderer.Clear ();
+			break;
+		case 3:
+			Image i1 = marcadorBomba3.GetComponent<Image> ();
+			i1.canvasRenderer.Clear ();
+			break;
+
+
+		default:
+			break;
+		}
+
+		bombas = bombas - 1;
+
+
+
+
+
+
+
 	}
 
 	void Update ()
@@ -82,12 +116,10 @@ public class ControlNave : MonoBehaviour
 		}
 		if (Input.GetKeyDown (KeyCode.LeftControl)) {
 			// Cada cierto tiempo, fabricamos un asteroide
-			if (Time.time > intervalo+tiempoInicial) {
+				if (bombas>0) {
 
-				intervalo += 5;
 				DispararBomba ();
 			}
-			tiempoInicial=0;
 		}
 	}
 
