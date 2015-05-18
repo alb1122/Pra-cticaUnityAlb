@@ -17,13 +17,30 @@ public class ControlNave : MonoBehaviour
 	public Rigidbody2D bomba;
 
 	private float intervalo;
+	private bool muerto=false;
+
+	//pal respawn
+	float secondsCounter=0;
+	float secondsToCount=1;
+	int number=0;
 
 	public GameObject marcadorBomba1;
 	public GameObject marcadorBomba2;
 	public GameObject marcadorBomba3;
 
 	private int bombas = 3;
+
+	public GameObject exp;
+	public GameObject asteroideM;
+
+	void Start ()
+	{
+
+		asteroideM = GameObject.Find ("AsteroideM");
+		
+	}
 	// Hacemos copias del prefab del disparo y las lanzamos
+
 	void Disparar ()
 	{
 		// Clonar el objeto
@@ -121,6 +138,55 @@ public class ControlNave : MonoBehaviour
 				DispararBomba ();
 			}
 		}
+		if (muerto) {
+			secondsCounter += Time.deltaTime;
+			if (secondsCounter >= secondsToCount)
+			{
+				secondsCounter=0;
+				number++;
+				transform.position = transform.position;
+
+
+				//cube.transform.position = new Vector3(x, y, 0);
+
+			}
+
+
+		}
 	}
+
+	void OnCollisionEnter2D (Collision2D coll)
+	{
+
+		
+
+			if (coll.gameObject.tag == "asteroide") {
+				// Hemos chocado con la nave, restamos una vida
+				Instantiate (exp, transform.position, transform.rotation);
+				GetComponent<Renderer>().enabled = false;
+				GetComponent<Collider2D>().enabled = false;
+				respawnNave();
+
+			}
+		
+
+	}
+	void respawnNave(){
+		Destroy (gameObject);
+		muerto = true;
+//		 float t=Time.time+1;
+//		new WaitForSeconds(5);
+//
+//		if (Time.time>t) {
+//		
+//			GetComponent<Renderer> ().enabled = true;
+//			GetComponent<Collider2D> ().enabled = true;
+//
+//		}
+		 
+
+
+	}
+
 
 }
