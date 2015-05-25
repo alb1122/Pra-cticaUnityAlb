@@ -20,10 +20,14 @@ public class ControlNave : MonoBehaviour
 	private bool muerto=false;
 
 	//pal respawn
-	float secondsCounter=0;
+	float tmuerto=0;
+	float tresp=1;
 	float secondsToCount=1;
 	int number=0;
-
+	float xo;
+	float yo;
+	float zo;
+	Vector3 posO;
 	public GameObject marcadorBomba1;
 	public GameObject marcadorBomba2;
 	public GameObject marcadorBomba3;
@@ -35,8 +39,10 @@ public class ControlNave : MonoBehaviour
 
 	void Start ()
 	{
-
+		// posO = new Vector3();
+	//	posO = transform.position;
 		asteroideM = GameObject.Find ("AsteroideM");
+		muerto = false;
 		
 	}
 	// Hacemos copias del prefab del disparo y las lanzamos
@@ -105,54 +111,98 @@ public class ControlNave : MonoBehaviour
 		// Izquierda
 		posicionXi = (horzExtent  * -1)+1;
 		posicionXd = (horzExtent  )-1;
-		if (Input.GetKey (KeyCode.LeftArrow)) {
-			//posicionXi=transform.position.x;
-			if (transform.position.x>=posicionXi){
-				transform.Translate (Vector3.left * velocidadNave * Time.deltaTime );
-			}else {
-				transform.Translate (Vector3.left * velocidadNave * Time.deltaTime * 0);
+		if (muerto) {
+
+
+		
+	
+		
+		
+		} else {
+			if (Input.GetKey (KeyCode.LeftArrow)) {
+				//posicionXi=transform.position.x;
+				if (transform.position.x >= posicionXi) {
+					transform.Translate (Vector3.left * velocidadNave * Time.deltaTime);
+				} else {
+					transform.Translate (Vector3.left * velocidadNave * Time.deltaTime * 0);
 				}
 
 				
 
-		}
-
-		// Derecha
-		if (Input.GetKey (KeyCode.RightArrow)) {
-			if (transform.position.x<=posicionXd) {
-				transform.Translate (Vector3.right * velocidadNave * Time.deltaTime);
-			}else {
-
-			transform.Translate (Vector3.right * velocidadNave * Time.deltaTime*0);
-			}
-		}
-
-		// Disparo
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			Disparar ();
-		}
-		if (Input.GetKeyDown (KeyCode.LeftControl)) {
-			// Cada cierto tiempo, fabricamos un asteroide
-				if (bombas>0) {
-
-				DispararBomba ();
-			}
-		}
-		if (muerto) {
-			secondsCounter += Time.deltaTime;
-			if (secondsCounter >= secondsToCount)
-			{
-				secondsCounter=0;
-				number++;
-				transform.position = transform.position;
-
-
-				//cube.transform.position = new Vector3(x, y, 0);
-
 			}
 
+			// Derecha
+			if (Input.GetKey (KeyCode.RightArrow)) {
+				if (transform.position.x <= posicionXd) {
+					transform.Translate (Vector3.right * velocidadNave * Time.deltaTime);
+				} else {
 
+					transform.Translate (Vector3.right * velocidadNave * Time.deltaTime * 0);
+				}
+			}
+
+			// Disparo
+			if (Input.GetKeyDown (KeyCode.Space)) {
+				Disparar ();
+			}
+			if (Input.GetKeyDown (KeyCode.LeftControl)) {
+				// Cada cierto tiempo, fabricamos un asteroide
+				if (bombas > 0) {
+
+					DispararBomba ();
+				}
+			}
 		}
+//		if (muerto) {
+//			secondsCounter += Time.deltaTime;
+//			if (secondsCounter >= secondsToCount)
+//			{
+//				secondsCounter=0;
+//				number++;
+//				transform.position = transform.position;
+//
+//
+//				//cube.transform.position = new Vector3(x, y, 0);
+//
+//			}
+//
+//
+//		}
+//		if (Time.time < tmuerto) {
+//			GetComponent<CircleCollider2D>().enabled = false;
+//			GetComponent<Renderer>().enabled = true;
+//			for(double i = 0; i < 2; i=i+0.2)
+//			{
+//				if (Time.time<0.2){
+//					GetComponent<Renderer>().enabled = true;
+//				}
+//				GetComponent<Renderer>().enabled = false;
+//			}
+//		}
+
+	if (Time.time > tmuerto-1) {
+		//transform.position=new Vector3(0,0,0);
+		
+		GetComponent<Renderer> ().enabled = false;
+	}
+	if (Time.time > tmuerto - 3) {
+			//transform.position=new Vector3(0,0,0);
+		
+			GetComponent<Renderer> ().enabled = true;
+		} else {
+			GetComponent<Renderer> ().enabled = false;
+		}
+
+	if (Time.time > tmuerto) {
+				//transform.position=new Vector3(0,0,0);
+
+				GetComponent<Renderer> ().enabled = true;
+				GetComponent<CircleCollider2D> ().enabled = true;
+				disparo.GetComponent<Renderer> ().enabled = true;
+				disparo.GetComponent<Collider2D> ().enabled = true;
+				muerto = false;
+			}
+		
 	}
 
 	void OnCollisionEnter2D (Collision2D coll)
@@ -172,8 +222,21 @@ public class ControlNave : MonoBehaviour
 
 	}
 	void respawnNave(){
-		Destroy (gameObject);
+		//GetComponent<Renderer>().enabled = false;
+		//GetComponent<Collider2D>().enabled = false;
+		//
+
 		muerto = true;
+
+		if (muerto) {
+			disparo.GetComponent<Renderer>().enabled=false;
+			disparo.GetComponent<Collider2D>().enabled = false;
+			transform.position=new Vector3(0,0,0);
+			tmuerto=Time.time+4;
+		}
+		 
+			
+		
 //		 float t=Time.time+1;
 //		new WaitForSeconds(5);
 //

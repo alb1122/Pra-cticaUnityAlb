@@ -32,15 +32,15 @@ public class ControlAsteroide : MonoBehaviour
 			//coll.gameObject.GetComponent<ParticleAnimator>()
 			coll.gameObject.GetComponent<Renderer>().enabled = false;
 			coll.gameObject.GetComponent<Collider2D>().enabled = false;
-//		} else {
-//			if (coll.gameObject.tag == "nave") {
-//				// Hemos chocado con la nave, restamos una vida
-//				Instantiate (navExp, transform.position, transform.rotation);
-//				Destroy(nave);
-//				if (marcador.GetComponent<ControlMarcador> ().vidas > 0) {
-//					marcador.GetComponent<ControlMarcador> ().vidas -= 1;
-//				}
-//			}
+		} else {
+			if (coll.gameObject.tag == "nave") {
+				// Hemos chocado con la nave, restamos una vida
+				Instantiate (exp, transform.position, transform.rotation);
+				Destroy(nave);
+				if (marcador.GetComponent<ControlMarcador> ().vidas > 0) {
+					marcador.GetComponent<ControlMarcador> ().vidas -= 1;
+				}
+			}
 		}
 
 		// El asteroide se destruye
