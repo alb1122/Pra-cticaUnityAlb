@@ -15,7 +15,7 @@ public class ControlNave : MonoBehaviour
 	// Acceso al prefab Disparo
 	public Rigidbody2D disparo;
 	public Rigidbody2D bomba;
-
+	
 	private float intervalo;
 	private bool muerto=false;
 
@@ -36,6 +36,8 @@ public class ControlNave : MonoBehaviour
 
 	public GameObject exp;
 	public GameObject asteroideM;
+	public RuntimeAnimatorController muertoAnimacion;
+	public RuntimeAnimatorController vivoAnimacion;
 
 	void Start ()
 	{
@@ -200,6 +202,7 @@ public class ControlNave : MonoBehaviour
 				GetComponent<CircleCollider2D> ().enabled = true;
 				disparo.GetComponent<Renderer> ().enabled = true;
 				disparo.GetComponent<Collider2D> ().enabled = true;
+			GetComponent<Animator>().runtimeAnimatorController=vivoAnimacion;
 				muerto = false;
 			}
 		
@@ -232,7 +235,10 @@ public class ControlNave : MonoBehaviour
 			disparo.GetComponent<Renderer>().enabled=false;
 			disparo.GetComponent<Collider2D>().enabled = false;
 			transform.position=new Vector3(0,0,0);
-			tmuerto=Time.time+4;
+			tmuerto=Time.time+3;
+			GetComponent<Animator>().runtimeAnimatorController=muertoAnimacion;
+		//	animator.runtimeAnimatorController = Resources.Load("path_to_your_controller") as RuntimeAnimatorController;
+
 		}
 		 
 			

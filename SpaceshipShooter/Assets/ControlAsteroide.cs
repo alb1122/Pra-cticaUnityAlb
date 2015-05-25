@@ -9,12 +9,14 @@ public class ControlAsteroide : MonoBehaviour
 	public int puntos = 100;
 	public GameObject exp;
 	public GameObject navExp;
+	public GameObject expBomba;
 
 	// Localizar y conectar el marcador para poder actualizarlo
 	void Start ()
 	{
 		marcador = GameObject.Find ("Marcador");
 		nave = GameObject.Find ("nave");
+
 
 	}
 
@@ -32,7 +34,15 @@ public class ControlAsteroide : MonoBehaviour
 			//coll.gameObject.GetComponent<ParticleAnimator>()
 			coll.gameObject.GetComponent<Renderer>().enabled = false;
 			coll.gameObject.GetComponent<Collider2D>().enabled = false;
-		} else {
+
+		}
+		else if (coll.gameObject.tag == "bomba"){
+			Instantiate(expBomba,transform.position,transform.rotation);
+			coll.gameObject.GetComponent<Renderer>().enabled = false;
+			coll.gameObject.GetComponent<Collider2D>().enabled = false;
+
+		}
+		else {
 			if (coll.gameObject.tag == "nave") {
 				// Hemos chocado con la nave, restamos una vida
 				Instantiate (exp, transform.position, transform.rotation);
